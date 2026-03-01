@@ -36,16 +36,17 @@ export class AuthService {
         }
     }
 
+    // check user login or not
     async getCurrentuser(){
         try{
             return await this.account.get()
         }catch(error){
-            throw error
+            console.log("Appwrite service :: getCurrentuser :: error :: ", error)
         }
-
         return null;
     }
 
+    
     async logout(){
         try{
             return await this.account.deleteSessions()

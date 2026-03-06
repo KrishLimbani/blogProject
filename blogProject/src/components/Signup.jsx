@@ -10,7 +10,7 @@ function Signup() {
     const navigate = useNavigate();
     const [error, setError] = useState("")
     const dispatch = useDispatch()
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, formState: {errors} } = useForm();
 
     const createAccount = async (data) => {
         setError("")
@@ -55,11 +55,13 @@ function Signup() {
                         type = "email"
                         placeholder = "Enter your email"
                         {...register("email", {required: true,
-                            validate: {
-                                matchPatern: (value) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||"Email address must be a valid address",
+                            pattern: {
+                                value: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+                                message: "Email address must be a valid address"
                             }
                         })}
                         />
+                        {errors.email && (<p className="text-red-500 text-sm">{errors.email.message}</p>)}
                         <Input
                         label = "Password: "
                         type = "password"

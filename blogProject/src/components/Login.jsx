@@ -9,11 +9,11 @@ import { useForm } from "react-hook-form"
 function Login() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const {register, handleSubmit} = useForm()
+    const {register, handleSubmit, formState: {errors}} = useForm()
     const [error, setError] = useState("")
 
     const login = async (data) => {
-        setError(" ")
+        setError("")
         try {
             const session = await service.login(data)
             if (session) {
@@ -22,7 +22,7 @@ function Login() {
                 navigate("/")
             }
         } catch (error) {
-            setError(error)
+            setError(error.message)
         }
     }
 
@@ -48,14 +48,16 @@ function Login() {
                         placeholder = "Enter your email"
                         type = "email"
                         {...register("email", {
-                            required: true,
-                            validate: {
-                                matchPatern: (value) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||"Email address must be a valid address",
+                            required: "Email is required",
+                            pattern: {
+                                value : /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+                                message: "Email address must be a valid address"
                             }
                         })}
                         />
+                        {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
                         <Input
-                        label = "passward: "
+                        label = "password: "
                         type = "password"
                         placeholder = "Enter you password"
                         {...register("password", {required: true})}

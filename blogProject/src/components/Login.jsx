@@ -18,7 +18,7 @@ function Login() {
             const session = await service.login(data)
             if (session) {
                 const userData = await service.getCurrentuser()
-                dispatch(authLogin(userData))
+                if(userData) dispatch(authLogin(userData))
                 navigate("/")
             }
         } catch (error) {
@@ -57,10 +57,11 @@ function Login() {
                         />
                         {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
                         <Input
-                        label = "password: "
-                        type = "password"
-                        placeholder = "Enter you password"
-                        {...register("password", {required: true})}
+                        label="Password: "
+                        type="password"
+                        {...register("password", {
+                            required: true,
+                        })}
                         />
                         <Button
                         type = "submit"

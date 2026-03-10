@@ -3,6 +3,8 @@ import './App.css'
 import { login, logout } from './store/authSlice'
 import { useDispatch } from 'react-redux'
 import authService from './appwrite/auth'
+import Header from './components/header/Header'
+import Footer from './components/footer/Footer'
 
 function App() {
   
@@ -27,7 +29,8 @@ function App() {
   return !loading ? (
     <>
     <div className=''>
-      
+      <Header/>
+      <Footer/>
     </div>
     </>
   ) : (

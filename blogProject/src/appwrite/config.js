@@ -119,6 +119,7 @@ export class Service{
         }
     }
 
+    //return image url so you can directly use this method
     async filePreview(fileId){
         try{
             return this.bucket.getFileView(

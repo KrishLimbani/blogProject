@@ -18,7 +18,7 @@ function Signup() {
             const sesstion = await service.createAccount(data)
             if (sesstion) {
                 const userData = await service.getCurrentuser()
-                dispatch(login(userData))
+                if(userData) dispatch(login(userData))
                 navigate("/")
             }
         } catch (error) {
@@ -39,7 +39,7 @@ function Signup() {
                     <Link
                         to="/login"
                         className="font-medium text-primary transition-all duration-200 hover:underline">
-                        Sign In
+                        Login 
                     </Link>
                 </p>
                 {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
@@ -63,11 +63,18 @@ function Signup() {
                         />
                         {errors.email && (<p className="text-red-500 text-sm">{errors.email.message}</p>)}
                         <Input
-                        label = "Password: "
-                        type = "password"
-                        placeholder = "Enter your password"
-                        {...register("password", {required: true})}
+                        label="Password: "
+                        type="password"
+                        placeholder = "create password"
+                        {...register("password", {
+                            required: true,
+                            minLength: {
+                                value: 6,
+                                message: "password must be at least 6 characters"
+                            }
+                        })}
                         />
+                        {errors.password && <P className="text-red-500 text-sm">{errors.password.message}</P>}
                         <Button type="submit">Create Account</Button>
                     </div>
                 </form>
